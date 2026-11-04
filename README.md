@@ -7,7 +7,7 @@ Mae is our channel's character: her prompt and sheets are not shared; please don
 
 The method, the prompts, the room pictures, the workflow and the credit ledger behind our video about making the channel's new AI presenter: her face and her room in Nano Banana Pro through PhotoGenerator.ai, what PhotoGenerator's Lip-Sync taught us, and how she talks every week with MiniMax H3 and the Pika H3 Flex adapter on our own computer.
 
-- Video: VIDEO_URL_SLOT
+- Video: https://youtu.be/5HPXjKsawMc
 
 **Ad:** PhotoGenerator.ai gave us a free month of its Pro plan for this video, and more free months once it is published.
 **Affiliate link:** if you subscribe through it, Grawwww earns a commission at no extra cost to you: https://www.photogenerator.ai/?ref=grawwww
