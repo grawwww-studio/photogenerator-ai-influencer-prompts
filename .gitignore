@@ -1,0 +1,15 @@
+# Generated clips and audio from PhotoGenerator.ai, anything you download, and model weights are not part of this repo.
+*.mp4
+*.mov
+*.wav
+*.mp3
+*.safetensors
+*.gguf
+# Pictures: only the two room pictures (AI tag in a margin strip) and the workflow screenshot used by h3/RECIPE.md.
+*.png
+*.webp
+*.jpeg
+*.jpg
+!room/*.jpg
+!h3/workflow.png
+*.bak*

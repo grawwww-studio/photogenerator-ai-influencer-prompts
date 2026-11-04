@@ -1,0 +1,338 @@
+{
+ "115": {
+  "inputs": {
+   "aspect_ratio": "16:9 (Widescreen)",
+   "megapixels": 0.9,
+   "multiple": 32
+  },
+  "class_type": "ResolutionSelector",
+  "_meta": {
+   "title": "Selector de Resoluci\u00f3n"
+  }
+ },
+ "119": {
+  "inputs": {
+   "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+  },
+  "class_type": "VAELoader",
+  "_meta": {
+   "title": "Cargar VAE"
+  }
+ },
+ "120": {
+  "inputs": {
+   "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+  },
+  "class_type": "VAELoader",
+  "_meta": {
+   "title": "Cargar VAE"
+  }
+ },
+ "121": {
+  "inputs": {
+   "samples": [
+    "125",
+    0
+   ],
+   "vae": [
+    "120",
+    0
+   ]
+  },
+  "class_type": "VAEDecodeAudio",
+  "_meta": {
+   "title": "VAEDecodeAudio"
+  }
+ },
+ "122": {
+  "inputs": {
+   "samples": [
+    "125",
+    0
+   ],
+   "vae": [
+    "119",
+    0
+   ]
+  },
+  "class_type": "VAEDecode",
+  "_meta": {
+   "title": "Decodificaci\u00f3n VAE"
+  }
+ },
+ "123": {
+  "inputs": {
+   "sampler_name": "lcm"
+  },
+  "class_type": "KSamplerSelect",
+  "_meta": {
+   "title": "KSamplerSelect"
+  }
+ },
+ "124": {
+  "class_type": "ManualSigmas",
+  "inputs": {
+   "sigmas": "1.0, 0.972973, 0.923077, 0.8, 0.571429, 0.333333, 0.0"
+  }
+ },
+ "125": {
+  "inputs": {
+   "noise": [
+    "129",
+    0
+   ],
+   "guider": [
+    "126",
+    0
+   ],
+   "sampler": [
+    "123",
+    0
+   ],
+   "sigmas": [
+    "124",
+    0
+   ],
+   "latent_image": [
+    "136",
+    1
+   ]
+  },
+  "class_type": "SamplerCustomAdvanced",
+  "_meta": {
+   "title": "SamplerCustomAdvanced"
+  }
+ },
+ "126": {
+  "inputs": {
+   "model": [
+    "143",
+    0
+   ],
+   "conditioning": [
+    "306",
+    0
+   ]
+  },
+  "class_type": "BasicGuider",
+  "_meta": {
+   "title": "Gu\u00edaB\u00e1sica"
+  }
+ },
+ "127": {
+  "inputs": {
+   "unet_name": "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+   "weight_dtype": "default"
+  },
+  "class_type": "UNETLoader",
+  "_meta": {
+   "title": "Cargar Modelo de Difusi\u00f3n"
+  }
+ },
+ "128": {
+  "inputs": {
+   "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+   "type": "minimax",
+   "device": "default"
+  },
+  "class_type": "CLIPLoader",
+  "_meta": {
+   "title": "Cargar CLIP"
+  }
+ },
+ "129": {
+  "inputs": {
+   "noise_seed": 5207
+  },
+  "class_type": "RandomNoise",
+  "_meta": {
+   "title": "Ruido aleatorio"
+  }
+ },
+ "130": {
+  "inputs": {
+   "fps": 24.0,
+   "bit_depth": 8,
+   "color_space": "sRGB",
+   "codec": "none",
+   "images": [
+    "122",
+    0
+   ],
+   "audio": [
+    "121",
+    0
+   ]
+  },
+  "class_type": "CreateVideo",
+  "_meta": {
+   "title": "Crear video"
+  }
+ },
+ "131": {
+  "inputs": {
+   "expression": "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17",
+   "values.a": [
+    "132",
+    0
+   ]
+  },
+  "class_type": "ComfyMathExpression",
+  "_meta": {
+   "title": "Expresi\u00f3n matem\u00e1tica"
+  }
+ },
+ "132": {
+  "inputs": {
+   "value": 5.875
+  },
+  "class_type": "PrimitiveFloat",
+  "_meta": {
+   "title": "Flotante"
+  }
+ },
+ "136": {
+  "inputs": {
+   "prompt": [
+    "138",
+    0
+   ],
+   "width": 1344,
+   "height": 768,
+   "length": [
+    "131",
+    1
+   ],
+   "ref_image_size": "match",
+   "clip": [
+    "128",
+    0
+   ],
+   "vae": [
+    "119",
+    0
+   ],
+   "audio_vae": [
+    "120",
+    0
+   ],
+   "ref_images.ref_image_0": [
+    "300",
+    0
+   ],
+   "ref_audios.ref_audio_0": [
+    "303",
+    0
+   ],
+   "ref_images.ref_image_1": [
+    "301",
+    0
+   ]
+  },
+  "class_type": "MiniMaxH3ReferenceToVideo",
+  "_meta": {
+   "title": "MiniMax H3 Referencia a Video"
+  }
+ },
+ "138": {
+  "inputs": {
+   "value": "subject_definitions:\n<Subject 1> is the adult woman shown on <Picture 1>, a character sheet of one woman made of three photos: a full body front view, an exact side profile view of her head and shoulders and a large face close-up, all views are the same person against a plain grey backdrop. Her face, facial proportions and marks come from the face close-up and the other views, her body proportions and her clothes come from the full body view. Copy none of the grey backdrop, panel layout, lighting or framing of the sheet, and never show the sheet itself. Facial identity details: [your character's identity words: hair, face, marks, make-up, jewellery].\n<Subject 2> is the empty room shown on <Picture 2>, a photograph of an empty room without any person: describe here, in plain words, the walls, the furniture and the lamps you can see in your room picture, in the same places and the same perspective. The room, its layout, its depth of field and the camera position of <Picture 2> are kept exactly, and <Subject 1> sits in it. Evening light: describe your own key light and where it comes from.\n<Audio 1> supplies only the voice timbre, accent and cadence of <Subject 1> (S1).\nsummary:\n[reference generation + audio reference] A relaxed piece to camera: <Subject 1> sits in <Subject 2> and explains something to the viewer like a creator talking to a friend, looking straight into the lens.\nretention_analysis:\n<Subject 1> (appears in [Shot 1]): fully_preserved - the facial identity, facial geometry, the hairstyle, marks, skin tone and body proportions from the character sheet <Picture 1> are retained; clothing follows the action, with these constraints: [your character's outfit, in nouns only].\n<Subject 2> (appears in [Shot 1]): fully_preserved - the room geometry, walls, floor, furniture, lamps and objects of <Picture 2>, seen from the same camera position.\n<Audio 1>: reference - vocal timbre and delivery guide <Subject 1>'s speech.\ndetailed_description:\nCamera: 85mm lens at f/2, static tripod at her eye level, a tight medium close-up from the top of her head to her waist, one continuous take; everything in the room stays still and unchanged. The framing and her distance to the lens stay identical from the first to the last frame.\nTone: calm, natural and conversational, a real creator recording herself in her cosy home studio in the evening.\nLighting: a soft warm key from a large diffused lamp out of frame at camera left lights her face evenly; the floor lamp and the other lamps glow warm and make pools of light on the wall and the shelves; the wall is about two stops darker than her face and falls off into dark corners; no rim light, no coloured light, no cinematic colour grade. The light does not change.\nTexture: natural matte skin with visible pores and fine freckles, her hair in individual strands, the fabric of her clothes, her jewellery, the nap and soft sheen of the velvet, slight natural camera noise.\nLOOK LOCK: the picture looks like a real creator filming herself: a full-frame mirrorless creator camera at 24 fps with a 35 mm f/1.8 lens on a tripod, natural depth of field and natural motion blur, a gentle natural grade with no film emulation. This look holds unchanged from the first to the last frame, with no clean CGI look.\nLIGHT LOCK: motivated light only: the soft key on her face is the lamp light and the dim evening window light from camera left, and the floor lamp and table lamp glow in the room. No beauty light, no ring light, no rim light and no light from nowhere.\nFILM LOCK: fine sensor noise in the shadows only, soft highlight roll-off on the lamp shades without clipping. Unretouched skin with visible pores and small natural shine, no retouching, no skin smoothing, no plastic skin.\n[Shot 1] A tight medium close-up shot of <Subject 1> seated in <Subject 2>; her hands rest in her lap and lift into a small explaining gesture now and then. She looks straight into the lens and talks calmly and clearly, with small natural head movements and relaxed eyebrows; she breathes, blinks naturally and shifts her weight slightly, and her mouth shapes follow each word naturally, without exaggerated mouth movement. <Subject 1> (S1) says: <d>[English] YOUR LINE HERE.</d> After the last word she gives a small nod and a slight smile, holds eye contact and stays relaxed until the end. The frame stays clean of lettering, on-screen text, captions and graphics. Her movement stays physically natural and temporally coherent throughout the shot.\noverall_soundscape:\nquiet evening room tone of a small furnished room.\nnon_diegetic_music:\nN/A"
+  },
+  "class_type": "PrimitiveStringMultiline",
+  "_meta": {
+   "title": "Cadena (Multil\u00ednea)"
+  }
+ },
+ "143": {
+  "inputs": {
+   "lora_name": "pika_h3_flex_ref2va_comfy_bf16.safetensors",
+   "strength_model": 1.0,
+   "model": [
+    "127",
+    0
+   ]
+  },
+  "class_type": "LoraLoaderModelOnly",
+  "_meta": {
+   "title": "CargadorLoRAModeloSolo"
+  }
+ },
+ "300": {
+  "inputs": {
+   "image": "character_sheet.png"
+  },
+  "class_type": "LoadImage",
+  "_meta": {
+   "title": "Cargar Imagen"
+  }
+ },
+ "303": {
+  "inputs": {
+   "audio": "voice_pad.wav"
+  },
+  "class_type": "LoadAudio",
+  "_meta": {
+   "title": "CargarAudio"
+  }
+ },
+ "305": {
+  "inputs": {
+   "audio": "voice_pad.wav"
+  },
+  "class_type": "LoadAudio",
+  "_meta": {
+   "title": "CargarAudio"
+  }
+ },
+ "306": {
+  "inputs": {
+   "frame_idx": 0,
+   "positive": [
+    "136",
+    0
+   ],
+   "latent": [
+    "136",
+    1
+   ],
+   "vae": [
+    "119",
+    0
+   ],
+   "audio_vae": [
+    "120",
+    0
+   ],
+   "audio": [
+    "305",
+    0
+   ]
+  },
+  "class_type": "MiniMaxH3AddGuide",
+  "_meta": {
+   "title": "A\u00f1adir gu\u00eda para MiniMax H3"
+  }
+ },
+ "312": {
+  "inputs": {
+   "filename_prefix": "take",
+   "format": "auto",
+   "format.codec": "auto",
+   "codec": "auto",
+   "video": [
+    "130",
+    0
+   ]
+  },
+  "class_type": "SaveVideo",
+  "_meta": {
+   "title": "Guardar video"
+  }
+ },
+ "301": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "room_plate.png"
+  }
+ }
+}
